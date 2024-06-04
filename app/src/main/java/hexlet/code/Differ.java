@@ -12,10 +12,6 @@ public class Differ implements Runnable{
     boolean help;
     @Option (names = {"-V", "--version"}, description = "Print version information and exit.") boolean V;
 
-    /*public static void generate() {
-        System.out.println("generate created");
-    }*/
-
     @Override
     public void run() {
         System.out.println("");
