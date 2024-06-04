@@ -8,6 +8,9 @@ import picocli.CommandLine.Command;
 
 public class Differ implements Runnable{
 
+    @Option(names = { "-f", "--file" }, paramLabel = "ARCHIVE", description = "the archive file")
+    boolean archive;
+
     @Option (names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
     boolean help;
     @Option (names = {"-V", "--version"}, description = "Print version information and exit.") boolean V;
