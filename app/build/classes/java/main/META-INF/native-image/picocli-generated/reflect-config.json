@@ -1,0 +1,13 @@
+[
+  {
+    "name" : "hexlet.code.Differ",
+    "allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+    "fields" : [
+      { "name" : "V" },
+      { "name" : "help" }
+    ]
+  }
+]
