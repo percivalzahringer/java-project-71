@@ -1,6 +1,7 @@
 plugins {
     id("java")
     application
+    checkstyle
 }
 
 application {
@@ -28,6 +29,15 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.1")
     implementation("commons-io:commons-io:2.7")
 }
+
+tasks.withType<JavaCompile>(){
+    options.compilerArgs.addAll(listOf("-Aproject=${project.group}/${project.name}"))
+}
+
+tasks.getByName("run", JavaExec::class) {
+    standardInput = System.`in`
+}
+
 
 tasks.test {
     useJUnitPlatform()
