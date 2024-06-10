@@ -1,22 +1,25 @@
 package hexlet.code;
 
-import picocli.CommandLine.Option;
-import picocli.CommandLine.Command;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Command(name = "gendiff",
-        description = "Compares two configuration files and shows a difference.")
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
 
-public class Differ implements Runnable{
 
-    @Option(names = { "-f", "--file" }, paramLabel = "ARCHIVE", description = "the archive file")
-    boolean archive;
-
-    @Option (names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
-    boolean help;
-    @Option (names = {"-V", "--version"}, description = "Print version information and exit.") boolean V;
-
-    @Override
-    public void run() {
-        System.out.println("");
+public class Differ {
+    public static String generate(Path p1, Path p2) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String firstFileContent = Files.readString(p1);
+        String secondFileContent = Files.readString(p2);
+        Map<String, Object> firstFileAsMap
+                = objectMapper.readValue(firstFileContent, new TypeReference<Map<String, Object>>() {
+        });
+        Map<String, Object> secondFileAsMap
+                = objectMapper.readValue(secondFileContent, new TypeReference<Map<String, Object>>() {
+        });
+        return "generate created";
     }
 }
