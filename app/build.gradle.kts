@@ -1,5 +1,7 @@
 plugins {
     id("java")
+    java
+    jacoco
     application
     checkstyle
 }
@@ -28,6 +30,8 @@ dependencies {
 
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.1")
     implementation("commons-io:commons-io:2.7")
+
+    implementation("com.google.guava:guava:33.1.0-jre")
 }
 
 tasks.withType<JavaCompile>(){

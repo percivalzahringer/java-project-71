@@ -3,4 +3,6 @@
 run-dist:
 	$ gradle clean
 	$ gradle installDist
-	./build/install/app/bin/app -h
+	./build/install/app/bin/app
+
+.PHONY: build
