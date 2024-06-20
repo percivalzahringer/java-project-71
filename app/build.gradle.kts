@@ -1,9 +1,16 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id("java")
-    java
     jacoco
     application
     checkstyle
+    id("io.freefair.lombok") version "8.6"
+}
+
+jacoco {
+    toolVersion = "0.8.12"
 }
 
 application {
@@ -32,17 +39,25 @@ dependencies {
     implementation("commons-io:commons-io:2.7")
 
     implementation("com.google.guava:guava:33.1.0-jre")
+
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.1")
 }
 
 tasks.withType<JavaCompile>(){
     options.compilerArgs.addAll(listOf("-Aproject=${project.group}/${project.name}"))
 }
 
-tasks.getByName("run", JavaExec::class) {
-    standardInput = System.`in`
-}
-
-
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+        events = mutableSetOf(TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED)
+        showStandardStreams = true
+    }
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports { xml.required.set(true) }
 }
