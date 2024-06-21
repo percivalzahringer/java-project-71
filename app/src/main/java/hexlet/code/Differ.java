@@ -2,29 +2,44 @@ package hexlet.code;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
-import java.util.SortedMap;
+
 
 public class Differ {
-    static final String[] KEY_STATUS = {"key edited", "key not edited"};
-    static final Character[] EDIT_SIGN = {'+', '-'};
-    public static String generate(String firstFile, String secondFile) throws Exception {
-        return generate(firstFile, secondFile, "stylish");
-    }
-    public static String generate(String firstFile, String secondFile, String format) throws Exception {
-        Path peocessedFirstPath = Path.of(firstFile).toAbsolutePath().normalize();
-        Path processedSecondPath = Path.of(secondFile).toAbsolutePath().normalize();
-        String firstFileContent = Files.readString(peocessedFirstPath);
-        String secondFileContent  = Files.readString(processedSecondPath);
-        Map<String, Object> firstFileAsHashMap = Parser.parser(firstFileContent);
-        Map<String, Object> secondFileAsHashMap = Parser.parser(secondFileContent);
-        SortedMap<String, String> differenceMap = Comparator.generateKeyStatusHashMap(firstFileAsHashMap,
-                secondFileAsHashMap);
+    public static String generate(String firstFilepath, String secondFilepath, String formatName)
+            throws Exception {
 
-        if (format.equals("stylish")) {
-            return Formatter.stylish(firstFileAsHashMap, secondFileAsHashMap, differenceMap);
-        } else {
-            return "plain was selected";
+        Map<String, Object> parsedFirstFile = getData(firstFilepath);
+        Map<String, Object> parsedSecondFile = getData(secondFilepath);
+        Map<String, Object> differences = Comparison.genDiff(parsedFirstFile, parsedSecondFile);
+
+        return Formatter.format(differences, formatName);
+    }
+
+    public static String generate(String filepath1, String filepath2) throws Exception {
+        return generate(filepath1, filepath2, "stylish");
+    }
+
+
+    private static Map<String, Object> getData(String filePath) throws Exception {
+        Path fullPath = getFullPath(filePath);
+        if (!Files.exists(fullPath)) {
+            throw new Exception("File '" + fullPath + "' does not exist");
         }
+        String content = Files.readString(fullPath);
+        String dataFormat = getDataFormat(filePath);
+        return Parser.parse(content, dataFormat);
+    }
+
+    private static Path getFullPath(String filePath) {
+        return Paths.get(filePath).toAbsolutePath().normalize();
+    }
+
+    private static String getDataFormat(String filePath) {
+        int index = filePath.lastIndexOf('.');
+        return index > 0
+                ? filePath.substring(index + 1)
+                : "";
     }
 }

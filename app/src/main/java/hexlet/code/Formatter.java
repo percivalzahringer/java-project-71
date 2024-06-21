@@ -1,34 +1,20 @@
 package hexlet.code;
 
+import hexlet.code.formatters.JsonFormatter;
+import hexlet.code.formatters.PlainFormatter;
+import hexlet.code.formatters.StylishFormatter;
 import java.util.Map;
-import java.util.SortedMap;
 
-import static hexlet.code.Differ.EDIT_SIGN;
-import static hexlet.code.Differ.KEY_STATUS;
 
 public class Formatter {
 
-    public static String stylish(Map<String, Object> firstFileAsHashMap,
-                                 Map<String, Object> secondFileAsHashMap, SortedMap<String, String> differenceMap) {
-        StringBuilder resultMessage = new StringBuilder("{");
+    public static String format(Map<String, Object> differences, String formatName) throws Exception {
 
-        for (String key : differenceMap.keySet()) {
-            if (differenceMap.get(key).equals(KEY_STATUS[1])) {
-                resultMessage.append("\n" + " ".repeat(4) + key + ": " + firstFileAsHashMap.get(key));
-            }
-            if (differenceMap.get(key).equals(KEY_STATUS[0])) {
-                if (firstFileAsHashMap.containsKey(key)) {
-                    resultMessage.append("\n"
-                            + " ".repeat(2) + EDIT_SIGN[1]
-                            + " " + key + ": " + firstFileAsHashMap.get(key));
-                }
-                if (secondFileAsHashMap.containsKey(key)) {
-                    resultMessage.append("\n" + " ".repeat(2) + EDIT_SIGN[0]
-                            + " " + key + ": " + secondFileAsHashMap.get(key));
-                }
-            }
-        }
-        resultMessage.append("\n" + "}");
-        return resultMessage.toString();
+        return switch (formatName) {
+            case "json" -> JsonFormatter.render(differences);
+            case "stylish" -> StylishFormatter.render(differences);
+            case "plain" -> PlainFormatter.render(differences);
+            default -> throw new Exception("Unknown format: '" + formatName + "'");
+        };
     }
 }
