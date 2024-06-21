@@ -1,41 +1,33 @@
 # Makefile
 
 setup:
-	$ gradle wrapper --gradle-version 8.5
+	gradle wrapper --gradle-version 8.5
 
 clean:
-	$ gradle clean
+	./gradlew clean
 
 build:
-	$ gradle clean build
-
-install:
-	$ gradle clean install
-
-run-dist:
-	$ gradle clean
-	$ gradle installDist
-	./build/install/app/bin/app
+	./gradlew clean build
 
 run:
-	 $ gradle run
-
-.PHONY: test
-
-test:
-	$ gradle test
-
-.PHONY: report
-
-report:
-	$ gradle jacocoTestReport
+	./gradlew run --args="-h"
 
 lint:
-	$ gradle checkstyleMain
+	./gradlew checkstyleMain checkstyleTest
 
-check-dep:
-	$ gradle dependencyUpdates -Drevision=release
+test:
+	./gradlew test
 
-build-run: build run
+report:
+	./gradlew jacocoTestReport
+
+install:
+	./gradlew clean install
+
+run-dist:
+	./build/install/app/bin/app -h
+
+check-updates:
+	./gradlew dependencyUpdates
 
 .PHONY: build
