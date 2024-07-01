@@ -1,6 +1,7 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Status;
+import hexlet.code.Comparison.Status;
+import hexlet.code.Comparison;
 import java.util.List;
 import java.util.Map;
 import static java.lang.String.format;
@@ -19,7 +20,7 @@ public class PlainFormatter {
             String status = value.getStatusName();
 
             switch (status) {
-                case Status.CHANGED -> {
+                case Comparison.CHANGED -> {
                     String oldValue = stringify(value.getOldValue());
                     String newValue = stringify(value.getNewValue());
                     String name = stringify(key);
@@ -29,7 +30,7 @@ public class PlainFormatter {
                             .append("\n");
 
                 }
-                case Status.ADDED -> {
+                case Comparison.ADDED -> {
                     String newValue = stringify(value.getNewValue());
                     String name = stringify(key);
 
@@ -38,14 +39,14 @@ public class PlainFormatter {
                             .append("\n");
 
                 }
-                case Status.DELETED -> {
+                case Comparison.DELETED -> {
                     String name = stringify(key);
 
                     result.append(format("Property %s was removed", name))
                             .append("\n");
 
                 }
-                case Status.UNCHANGED -> {
+                case Comparison.UNCHANGED -> {
                     continue;
 
                 }

@@ -1,6 +1,7 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Status;
+import hexlet.code.Comparison.Status;
+import hexlet.code.Comparison;
 import java.util.Map;
 import static java.lang.String.format;
 
@@ -22,7 +23,7 @@ public class StylishFormatter {
             String status = value.getStatusName();
 
             switch (status) {
-                case Status.CHANGED -> {
+                case Comparison.CHANGED -> {
 
                     String oldValue = stringify(value.getOldValue());
                     String newValue = stringify(value.getNewValue());
@@ -32,7 +33,7 @@ public class StylishFormatter {
                     result.append(format("%s %s: %s", ADDSYMBOL, name, newValue)).append("\n");
 
                 }
-                case Status.ADDED -> {
+                case Comparison.ADDED -> {
 
                     String newValue = stringify(value.getNewValue());
                     String name = stringify(key);
@@ -40,7 +41,7 @@ public class StylishFormatter {
                     result.append(format("%s %s: %s", ADDSYMBOL, name, newValue)).append("\n");
 
                 }
-                case Status.DELETED -> {
+                case Comparison.DELETED -> {
 
                     String oldValue = stringify(value.getOldValue());
                     String name = stringify(key);
@@ -48,7 +49,7 @@ public class StylishFormatter {
                     result.append(format("%s %s: %s", REMOVESYMBOL, name, oldValue)).append("\n");
 
                 }
-                case Status.UNCHANGED -> {
+                case Comparison.UNCHANGED -> {
 
                     String oldValue = stringify(value.getOldValue());
                     String name = stringify(key);
