@@ -73,7 +73,6 @@ public class PlainFormatter {
             return "[complex value]";
         }
 
-        // Тип результата всегда должен быть строкой
         return value.toString();
     }
 }
